@@ -1,0 +1,43 @@
+PODS:
+  - AppAuth (1.3.1):
+    - AppAuth/Core (= 1.3.1)
+    - AppAuth/ExternalUserAgent (= 1.3.1)
+  - AppAuth/Core (1.3.1)
+  - AppAuth/ExternalUserAgent (1.3.1)
+  - Flutter (1.0.0)
+  - flutter_appauth (0.0.1):
+    - AppAuth (= 1.3.1)
+    - Flutter
+  - tru-sdk-ios (0.2.8)
+  - tru_sdk_flutter (0.0.5):
+    - Flutter
+    - tru-sdk-ios (= 0.2.8)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_appauth (from `.symlinks/plugins/flutter_appauth/ios`)
+  - tru_sdk_flutter (from `.symlinks/plugins/tru_sdk_flutter/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AppAuth
+    - tru-sdk-ios
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_appauth:
+    :path: ".symlinks/plugins/flutter_appauth/ios"
+  tru_sdk_flutter:
+    :path: ".symlinks/plugins/tru_sdk_flutter/ios"
+
+SPEC CHECKSUMS:
+  AppAuth: 8803ba1aec6d00d9afd30093f82e600307eaa6ea
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_appauth: a6bf9fa3192a14a981475c4cbe3bcebd3b563144
+  tru-sdk-ios: 3f898e4793c7f950d4a7d8c7932b86e8dc85cce3
+  tru_sdk_flutter: 19ee2585a573aa1540396be20dd62bcfb78ea9f0
+
+PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
+
+COCOAPODS: 1.11.2
