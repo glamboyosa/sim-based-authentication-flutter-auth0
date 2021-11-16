@@ -7,7 +7,7 @@ import 'package:tru_sdk_flutter/tru_sdk_flutter.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final String baseURL = '<YOUR-NGROK-URL>';
+final String baseURL = 'https://7828-129-18-188-133.ngrok.io';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 
@@ -86,8 +86,13 @@ Future<void> successHandler(BuildContext context) {
 class _LoginState extends State<Login> {
   String phoneNumber = '';
   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
+    print("-----------DOTENV TEST----------");
+    print(dotenv.env["AUTH0_CLIENT_ID"]);
+    print(dotenv.env["AUTH0_REDIRECT_URI"]);
+    print("https://\$dev-rttfgxdg.us.auth0.com");
     return Scaffold(
       body: Container(
         child: ListView(
@@ -140,36 +145,37 @@ class _LoginState extends State<Login> {
 
                       TruSdkFlutter sdk = TruSdkFlutter();
 
-                      String? reachabilityInfo = await sdk.isReachable();
+                      // String? reachabilityInfo = await sdk.isReachable();
 
-                      print("-------------REACHABILITTY RESULT --------------");
-                      print(reachabilityInfo);
-                      ReachabilityDetails? reachabilityDetails;
-                      if (reachabilityInfo != null) {
-                        reachabilityDetails = json.decode(reachabilityInfo);
-                      }
+                      // print("-------------REACHABILITTY RESULT --------------");
+                      // print(reachabilityInfo);
+                      // ReachabilityDetails? reachabilityDetails;
+                      // if (reachabilityInfo != null) {
+                      //   reachabilityDetails = json.decode(reachabilityInfo);
+                      // }
 
-                      if (reachabilityDetails?.error?.status == 400) {
-                        setState(() {
-                          loading = false;
-                        });
-                        return errorHandler(context, "Something Went Wrong.",
-                            "Mobile Operator not supported.");
-                      }
-                      bool isSubscriberCheckSupported = true;
+                      // if (reachabilityDetails?.error?.status == 400) {
+                      //   setState(() {
+                      //     loading = false;
+                      //   });
+                      //   return errorHandler(context, "Something Went Wrong.",
+                      //       "Mobile Operator not supported.");
+                      // }
+                      // bool isSubscriberCheckSupported = true;
 
-                      if (reachabilityDetails?.error?.status != 412) {
-                        isSubscriberCheckSupported = false;
+                      // if (reachabilityDetails?.error?.status != 412) {
+                      //   isSubscriberCheckSupported = false;
 
-                        for (var products in reachabilityDetails!.products!) {
-                          if (products.productName == "Subscriber Check") {
-                            isSubscriberCheckSupported = true;
-                          }
-                        }
-                      } else {
-                        isSubscriberCheckSupported = true;
-                      }
+                      //   for (var products in reachabilityDetails!.products!) {
+                      //     if (products.productName == "Subscriber Check") {
+                      //       isSubscriberCheckSupported = true;
+                      //     }
+                      //   }
+                      // } else {
+                      //   isSubscriberCheckSupported = true;
+                      // }
 
+                      bool isSubscriberCheckSupported = false;
                       if (isSubscriberCheckSupported) {
                         final SubscriberCheck? subscriberCheckResponse =
                             await createPhoneCheck(phoneNumber);
@@ -232,45 +238,41 @@ class _LoginState extends State<Login> {
 
                             return successHandler(context);
                           } else {
-                                            setState(() {
-                            loading = false;
-                          });
-
-                          return errorHandler(context, "Something went wrong.",
-                              "Unable to login. Please try again later");
-                          }
-                        } else {
-                           // proceed with Auth0 Auth
-
-                          final AuthorizationTokenResponse result =
-                              await appAuth.authorizeAndExchangeCode(
-                                  AuthorizationTokenRequest(
-                                      dotenv.env["AUTH0_CLIENT_ID"],
-                                      dotenv.env["AUTH0_REDIRECT_URI"],
-                                      issuer: dotenv.env["AUTH0_ISSUER"],
-                                      scopes: [
-                                'openid',
-                                'profile',
-                                'offline_access'
-                              ],
-                                      promptValues: [
-                                'login'
-                              ]));
-
-                          if (result.idToken.isNotEmpty) {
                             setState(() {
                               loading = false;
                             });
 
-                            return successHandler(context);
-                          } else {
-                            setState(() {
+                            return errorHandler(
+                                context,
+                                "Something went wrong.",
+                                "Unable to login. Please try again later");
+                          }
+                        }
+                      } else {
+                        // proceed with Auth0 Auth
+
+                        final AuthorizationTokenResponse result = await appAuth
+                            .authorizeAndExchangeCode(AuthorizationTokenRequest(
+                          dotenv.env["AUTH0_CLIENT_ID"],
+                          dotenv.env["AUTH0_REDIRECT_URI"],
+                          issuer: 'https://dev-rttfgxdg.us.auth0.com',
+                          scopes: ['openid', 'profile', 'offline_access'],
+                          promptValues: ['login']
+                        ));
+
+                        if (result.idToken.isNotEmpty) {
+                          setState(() {
+                            loading = false;
+                          });
+
+                          return successHandler(context);
+                        } else {
+                          setState(() {
                             loading = false;
                           });
 
                           return errorHandler(context, "Something went wrong.",
                               "Unable to login. Please try again later");
-                          }
                         }
                       }
                     },
