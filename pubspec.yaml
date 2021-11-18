@@ -36,7 +36,6 @@ dependencies:
   http: ^0.13.3
   flutter_appauth: ^1.1.0
   flutter_dotenv: ^5.0.2
-  tru_sdk_flutter: ^0.0.5
 
 dev_dependencies:
   flutter_test:
