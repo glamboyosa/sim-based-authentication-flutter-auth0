@@ -4,7 +4,7 @@
 
 - A [tru.ID Account](https://tru.id)
 - An [Auth0 Account](https://manage.auth0.com)
-- [Ngrok](httpd://ngrok.com)
+- [Ngrok](https://ngrok.com)
 - A mobile phone with a SIM card and mobile data connection
 
 ## Getting Started
