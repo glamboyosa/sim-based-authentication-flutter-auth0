@@ -7,7 +7,7 @@ import 'package:tru_sdk_flutter/tru_sdk_flutter.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final String baseURL = 'https://7828-129-18-188-133.ngrok.io';
+final String baseURL = '<YOUR-NGROK-URL>';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 
@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-Future<SubscriberCheck?> createPhoneCheck(String phoneNumber) async {
+Future<SubscriberCheck?> createSubscriberCheck(String phoneNumber) async {
   final response = await http.post(Uri.parse('$baseURL/subscriber-check'),
       body: {"phone_number": phoneNumber});
 
@@ -29,7 +29,7 @@ Future<SubscriberCheck?> createPhoneCheck(String phoneNumber) async {
   return subscriberCheckFromJSON(data);
 }
 
-Future<SubscriberCheckResult?> getPhoneCheck(String checkId) async {
+Future<SubscriberCheckResult?> getSubscriberCheck(String checkId) async {
   final response =
       await http.get(Uri.parse('$baseURL/subscriber-check/$checkId'));
 
@@ -89,10 +89,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    print("-----------DOTENV TEST----------");
-    print(dotenv.env["AUTH0_CLIENT_ID"]);
-    print(dotenv.env["AUTH0_REDIRECT_URI"]);
-    print("https://\$dev-rttfgxdg.us.auth0.com");
     return Scaffold(
       body: Container(
         child: ListView(
@@ -145,40 +141,40 @@ class _LoginState extends State<Login> {
 
                       TruSdkFlutter sdk = TruSdkFlutter();
 
-                      // String? reachabilityInfo = await sdk.isReachable();
+                      String? reachabilityInfo = await sdk.isReachable();
 
-                      // print("-------------REACHABILITTY RESULT --------------");
-                      // print(reachabilityInfo);
-                      // ReachabilityDetails? reachabilityDetails;
-                      // if (reachabilityInfo != null) {
-                      //   reachabilityDetails = json.decode(reachabilityInfo);
-                      // }
+                      print("-------------REACHABILITTY RESULT --------------");
+                      print(reachabilityInfo);
+                      ReachabilityDetails? reachabilityDetails;
+                      if (reachabilityInfo != null) {
+                        reachabilityDetails = json.decode(reachabilityInfo);
+                      }
 
-                      // if (reachabilityDetails?.error?.status == 400) {
-                      //   setState(() {
-                      //     loading = false;
-                      //   });
-                      //   return errorHandler(context, "Something Went Wrong.",
-                      //       "Mobile Operator not supported.");
-                      // }
-                      // bool isSubscriberCheckSupported = true;
+                      if (reachabilityDetails?.error?.status == 400) {
+                        setState(() {
+                          loading = false;
+                        });
+                        return errorHandler(context, "Something Went Wrong.",
+                            "Mobile Operator not supported.");
+                      }
+                      bool isSubscriberCheckSupported = true;
 
-                      // if (reachabilityDetails?.error?.status != 412) {
-                      //   isSubscriberCheckSupported = false;
+                      if (reachabilityDetails?.error?.status != 412) {
+                        isSubscriberCheckSupported = false;
 
-                      //   for (var products in reachabilityDetails!.products!) {
-                      //     if (products.productName == "Subscriber Check") {
-                      //       isSubscriberCheckSupported = true;
-                      //     }
-                      //   }
-                      // } else {
-                      //   isSubscriberCheckSupported = true;
-                      // }
+                        for (var products in reachabilityDetails!.products!) {
+                          if (products.productName == "Subscriber Check") {
+                            isSubscriberCheckSupported = true;
+                          }
+                        }
+                      } else {
+                        isSubscriberCheckSupported = true;
+                      }
 
-                      bool isSubscriberCheckSupported = false;
-                      if (isSubscriberCheckSupported) {
+                
+                      if (isSubscriberCheckSupported) {   
                         final SubscriberCheck? subscriberCheckResponse =
-                            await createPhoneCheck(phoneNumber);
+                            await createSubscriberCheck(phoneNumber);
                         if (subscriberCheckResponse == null) {
                           setState(() {
                             loading = false;
@@ -200,7 +196,7 @@ class _LoginState extends State<Login> {
                         }
 
                         final SubscriberCheckResult? subscriberCheckResult =
-                            await getPhoneCheck(
+                            await getSubscriberCheck(
                                 subscriberCheckResponse.checkId);
 
                         if (subscriberCheckResult == null) {
@@ -216,12 +212,12 @@ class _LoginState extends State<Login> {
                             subscriberCheckResult.simChanged == false) {
                           // proceed with Auth0 Auth
 
-                          final AuthorizationTokenResponse result =
-                              await appAuth.authorizeAndExchangeCode(
+                          final AuthorizationTokenResponse?
+                              result = await appAuth.authorizeAndExchangeCode(
                                   AuthorizationTokenRequest(
-                                      dotenv.env["AUTH0_CLIENT_ID"],
-                                      dotenv.env["AUTH0_REDIRECT_URI"],
-                                      issuer: dotenv.env["AUTH0_ISSUER"],
+                                      dotenv.env["AUTH0_CLIENT_ID"]!,
+                                      dotenv.env["AUTH0_REDIRECT_URI"]!,
+                                      issuer: dotenv.env["AUTH0_ISSUER"]!,
                                       scopes: [
                                 'openid',
                                 'profile',
@@ -231,7 +227,7 @@ class _LoginState extends State<Login> {
                                 'login'
                               ]));
 
-                          if (result.idToken.isNotEmpty) {
+                          if (result?.idToken != null) {
                             setState(() {
                               loading = false;
                             });
@@ -251,16 +247,15 @@ class _LoginState extends State<Login> {
                       } else {
                         // proceed with Auth0 Auth
 
-                        final AuthorizationTokenResponse result = await appAuth
+                        final AuthorizationTokenResponse? result = await appAuth
                             .authorizeAndExchangeCode(AuthorizationTokenRequest(
-                          dotenv.env["AUTH0_CLIENT_ID"],
-                          dotenv.env["AUTH0_REDIRECT_URI"],
-                          issuer: 'https://dev-rttfgxdg.us.auth0.com',
-                          scopes: ['openid', 'profile', 'offline_access'],
-                          promptValues: ['login']
-                        ));
+                                dotenv.env["AUTH0_CLIENT_ID"]!,
+                                dotenv.env["AUTH0_REDIRECT_URI"]!,
+                                issuer: dotenv.env["AUTH0_ISSUER"]!,
+                                scopes: ['openid', 'profile', 'offline_access'],
+                                promptValues: ['login']));
 
-                        if (result.idToken.isNotEmpty) {
+                        if (result?.idToken != null) {
                           setState(() {
                             loading = false;
                           });
