@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutterauth0subscribercheck/login.dart';
+
 Future<void> main() async {
-
   await dotenv.load();
-
 
   runApp(const MyApp());
 }
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Supabase Flutter',
+      title: 'Auth0 Flutter Application',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
