@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final String baseURL = '<YOUR-NGROK-URL>';
+const String baseURL = '<YOUR-NGROK-URL>';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 
@@ -17,8 +17,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
