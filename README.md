@@ -1,5 +1,7 @@
 # SIM Card Based Authentication with Flutter, Auth0 and tru.ID SubscriberCheck
 
+> **Note**: This repository contains the supporting project for a [tutorial](https://developer.tru.id/tutorials/auth0-sim-auth-flutter) found on [tru.ID](https://developer.tru.id)'s Developer portal.
+
 ## Requirements
 
 - A [tru.ID Account](https://tru.id)
@@ -32,7 +34,7 @@ npm i -g @tru_id/cli
 
 Input your **tru.ID** credentials which can be found within the tru.ID [console](https://developer.tru.id/console)
 
-Install the **tru.ID** CLI [development server plugin](https://github.com/tru-ID/cli-plugin-dev-server)
+Install the **tru.ID** [development server](https://github.com/tru-ID/dev-server)
 
 Create a new **tru.ID** project within the root directory via:
 
@@ -42,15 +44,7 @@ tru projects:create flutter-auth0 --project-dir .
 
 Run the development server, pointing it to the directory containing the newly created project configuration. This will run a local development server on port `8080`
 
-```
-tru server
-```
-
-To make the development server publicly accessible on the internet, run the following in a new terminal:
-
-```bash
-ngrok http 8080
-```
+To make the development server publicly accessible on the internet, provide your Ngrok credentials in the `.env` file of your `dev-server`
 
 ## Setting up Auth0
 
