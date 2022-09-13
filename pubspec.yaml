@@ -35,6 +35,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_appauth: ^1.1.0
   flutter_dotenv: ^5.0.2
+  tru_sdk_flutter: 1.0.0-preview
+
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

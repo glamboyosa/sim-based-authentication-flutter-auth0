@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterauth0subscribercheck/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load();
+
   runApp(const MyApp());
 }
 
