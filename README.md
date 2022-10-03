@@ -43,7 +43,7 @@ tru projects:create flutter-auth0 --project-dir .
 
 Run the development server, pointing it to the directory containing the newly created project configuration. This will run a local development server on port `8080`
 
-To make the development server publicly accessible on the internet, provide your Ngrok credentials in the `.env` file of your `dev-server`.
+To make the development server publicly accessible on the internet, provide your Ngrok credentials in the `.env` file of your `dev-server`
 
 ## Setting up Auth0
 

@@ -35,6 +35,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_appauth: ^1.1.0
   flutter_dotenv: ^5.0.2
+  tru_sdk_flutter: 1.0.0-preview
+
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
