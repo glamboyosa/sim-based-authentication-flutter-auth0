@@ -29,7 +29,6 @@ Install the tru.ID CLI via:
 
 ```bash
 npm i -g @tru_id/cli
-
 ```
 
 Input your **tru.ID** credentials which can be found within the tru.ID [console](https://developer.tru.id/console)
